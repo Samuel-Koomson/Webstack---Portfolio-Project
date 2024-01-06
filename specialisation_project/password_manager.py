@@ -98,49 +98,40 @@ def search_password():
         else:
             messagebox.showinfo(title="Not Found", message=f"No password found for {website}")
 
-# UI SETUP #
 
+# UI SETUP
 console = Tk()
 console.title('Password Manager App Using Tk GUI')
-console.config(width=500, height=500, padx=80, pady=50, bg=TEAL)
+console.config(bg=TEAL)
 
-console_canvas = Canvas(width=300, height=300, bg=MINT, highlightthickness=0)
-canvas_image = PhotoImage(file="logo.png")
-console_canvas.create_image(145, 150, image=canvas_image)
-console_canvas.create_text(150, 50, text='Password Manager',  fill=PURPLE, font=(FONT_NAME, 18, 'bold'))
-console_canvas.place(x=20, y=-15)
+# Header
+header_canvas = Canvas(console, width=320, height=270, bg=MINT, highlightthickness=0)
+header_image = PhotoImage(file="logo.png")
+header_canvas.create_image(155, 100, image=header_image)
+header_canvas.create_text(150, 200, text='Password Manager', fill=PURPLE, font=(FONT_NAME, 18, 'bold'))
+header_canvas.grid(row=0, column=0, columnspan=2, pady=10)
 
-website_label = Label(text='Website:')
-website_label.place(x=20, y=305)
+# Labels and Entry Widgets
+labels = ['Website:', 'Email/Username:', 'Password:']
+for i, label_text in enumerate(labels):
+    label = Label(console, text=label_text, bg=TEAL, font=(FONT_NAME, 10))
+    label.grid(row=i + 1, column=0, sticky=E, pady=2)
+    entry = Entry(console, width=37)
+    entry.grid(row=i + 1, column=1, sticky=W, pady=2)
+    if i == 1:
+        entry.insert(0, 'yawk@gmail.com')  # Default email
 
-email_label = Label(text='Email/Username:')
-email_label.place(x=0, y=320)
+# Buttons
+add_button = Button(console, text="Add", width=40, command=save_data, bg=PURPLE, fg="black")
+add_button.grid(row=4, column=0, columnspan=2, pady=10)
 
-password_label = Label(text='Password:')
-password_label.place(x=20, y=336)
+password_generator_button = Button(console, text="Generate Password", command=password_generator)
+password_generator_button.grid(row=3, column=1, sticky=E, pady=2)
 
-website_text = Entry(width=37)
-website_text.place(x=100, y=300)
-website_text.focus()
+view_button = Button(console, text="View Passwords", width=40, command=view_passwords, bg=PURPLE, fg="black")
+view_button.grid(row=5, column=0, columnspan=2, pady=10)
 
-email_text = Entry(width=37)
-email_text.place(x=100, y=320)
-email_text.insert(0, 'yawk@gmail.com')
-
-password_text = Entry(width=18)
-password_text.place(x=100, y=340)
-
-add_button = Button(text="Add", width=25, command=save_data)
-add_button.place(x=100, y=365)
-
-password_generator_button = Button(text="Generate Password", command=password_generator)
-password_generator_button.place(x=215, y=340)
-password_generator_button.config(padx=0, pady=0)
-
-view_button = Button(text="View Passwords", width=25, command=view_passwords)
-view_button.place(x=100, y=395)
-
-search_button = Button(text="Search Password", width=25, command=search_password)
-search_button.place(x=215, y=395)
+search_button = Button(console, text="Search Password", width=40, command=search_password, bg=PURPLE, fg="black")
+search_button.grid(row=6, column=0, columnspan=2, pady=10)
 
 console.mainloop()
